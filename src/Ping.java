@@ -6,6 +6,7 @@
 public class Ping implements Runnable {
 	private Pelota pelota;
 	private int id;
+	private boolean partidaFinalizada;
 	Ping(int id){
 		this.id = id;
 	}
@@ -28,16 +29,19 @@ public class Ping implements Runnable {
 	private synchronized boolean tienePelota(){
 		return this.pelota != null;
 	}
+
 	
 	/**
 	 * Método principal que invoca el thread
 	 */
 	public void run(){
-		while(true){
-			while(!tienePelota());
-			System.out.println("El hilo " + id + " lanza la pelota");
-			Actividad4.pasarSiguienteJugador();
-			pelota = null;
+		while(!Actividad4.estaPartidaFinalizada()){
+			if (tienePelota()){
+				System.out.println("El hilo " + id + " lanza la pelota");
+				Actividad4.pasarSiguienteJugador();
+				pelota = null;
+			}
 		}
+		
 	}
 }

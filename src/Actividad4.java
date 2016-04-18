@@ -10,11 +10,31 @@ public class Actividad4 {
 	private static Vector<Thread> threads;
 	private static int indiceJugadorActual = 0;
 	private static Pelota pelota;
+	private static final int N_MAX_JUGADAS = 10;
+	private static int nJugadas = 0;
+	private static Object lock = new Object();
+	
+	public static synchronized boolean estaPartidaFinalizada(){
+		return nJugadas >= N_MAX_JUGADAS;
+	}
+	
+	/**
+	 * Pasa la pelota al siguiente jugador
+	 * Pasa la pelota e incrementa el contador de jugadas
+	 */
 	public static void pasarSiguienteJugador(){
 		if(jugadores.size() == 0) return;
+		synchronized(lock){
+			nJugadas++;
+		}
 		indiceJugadorActual=(indiceJugadorActual+1)%jugadores.size();
 		jugadores.get(indiceJugadorActual).recibirPelota(pelota);
 	}
+	
+	/**
+	 * Main
+	 * @param args Argumentos del programa
+	 */
 	public static void main(String[] args){
 		pelota = new Pelota();
 		int nJugadores = 2;

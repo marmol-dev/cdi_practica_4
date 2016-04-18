@@ -6,16 +6,29 @@ import java.util.Vector;
  *
  */
 public class Actividad4 {
+	private static final int CRITERIO_FIN = 0;
+	private static final int N_MAX_JUGADAS = 10;	
+	
 	private static Vector<Ping> jugadores;
 	private static Vector<Thread> threads;
 	private static int indiceJugadorActual = 0;
 	private static Pelota pelota;
-	private static final int N_MAX_JUGADAS = 10;
-	private static int nJugadas = 0;
+	
+	private static int nJugadas = 0;	
+	
 	private static Object lock = new Object();
 	
-	public static synchronized boolean estaPartidaFinalizada(){
+	
+	private static boolean seSuperoNumJugadas(){
 		return nJugadas >= N_MAX_JUGADAS;
+	}
+	
+	public static boolean estaPartidaFinalizada(){
+		switch(CRITERIO_FIN){
+			case 0: default:
+				return seSuperoNumJugadas();
+				
+		}
 	}
 	
 	/**
@@ -36,8 +49,8 @@ public class Actividad4 {
 	 * @param args Argumentos del programa
 	 */
 	public static void main(String[] args){
-		pelota = new Pelota();
 		int nJugadores = 2;
+		pelota = new Pelota();
 		jugadores = new Vector<Ping>();
 		threads = new Vector<Thread>();
 		
@@ -51,7 +64,7 @@ public class Actividad4 {
 		for(int i = 0; i < nJugadores; i++){
 			threads.get(i).start();
 		}
-		
+				
 		pasarSiguienteJugador();
 		
 		//Join

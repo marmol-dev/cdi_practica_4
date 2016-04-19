@@ -40,8 +40,14 @@ public class Actividad4 {
 		synchronized(lock){
 			nJugadas++;
 		}
-		indiceJugadorActual=(indiceJugadorActual+1)%jugadores.size();
-		jugadores.get(indiceJugadorActual).recibirPelota(pelota);
+		if(estaPartidaFinalizada()){
+			for(Ping jugador: jugadores){
+				jugador.finalizarPartida();
+			}
+		} else {
+			indiceJugadorActual=(indiceJugadorActual+1)%jugadores.size();
+			jugadores.get(indiceJugadorActual).recibirPelota(pelota);
+		}
 	}
 	
 	/**
@@ -49,7 +55,7 @@ public class Actividad4 {
 	 * @param args Argumentos del programa
 	 */
 	public static void main(String[] args){
-		int nJugadores = 2;
+		int nJugadores = 3;
 		pelota = new Pelota();
 		jugadores = new Vector<Ping>();
 		threads = new Vector<Thread>();

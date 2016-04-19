@@ -6,10 +6,10 @@ import java.util.Vector;
  *
  */
 public class Actividad4 {
-	private static final int N_JUGADORES = 4096;
+	private static final int N_JUGADORES = 16;
 	private static final int JUGADOR_INICIAL = 0;
 	private static final int CRITERIO_FIN = 0;
-	private static final int N_MAX_JUGADAS = 2000;	
+	private static final int N_MAX_JUGADAS = 20;	
 	
 	private static Vector<Ping> jugadores;
 	private static Vector<Thread> threads;
@@ -77,6 +77,8 @@ public class Actividad4 {
 		double msInicio = System.currentTimeMillis();
 		pasarSiguienteJugador();
 		
+		//Prueba interrupción ejercicio 9
+		threads.get(5).interrupt();
 		
 		//Join
 		for(int i = 0; i < N_JUGADORES; i++){

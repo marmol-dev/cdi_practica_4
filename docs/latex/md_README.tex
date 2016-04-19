@@ -1,0 +1,89 @@
+Grupo C\-D\-I\-\_\-4
+
+\begin{quotation}
+Víctor Malvárez Filgueira
+
+\end{quotation}
+
+
+\begin{quotation}
+Martín Molina Álvarez
+
+\end{quotation}
+
+
+\subsection*{Respuestas}
+
+{\bfseries N\-O\-T\-A\-:} Los ejercicios marcados con un guión indican que no tienen una respuesta en forma de texto, sino que únicamente se entrega código.
+
+\subsubsection*{1}
+
+
+\begin{DoxyItemize}
+\item \subsubsection*{2}
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item \subsubsection*{3}
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item \subsubsection*{4}
+\end{DoxyItemize}
+
+El método {\ttfamily notify\-All} notifica a todos los hilos que están esperando (han hecho {\ttfamily wait}) al objeto de dicho método. El método {\ttfamily notify} notifica únicamente a uno de los hilos que están esperando (no se sabe cuál, uno de ellos). En nuestro caso resulta conveniente utilizar el método {\ttfamily notify} ya que en cada instante solo un hilo va a estar a estar esperando que se despierte el propio objeto.
+
+\subsubsection*{5}
+
+
+\begin{DoxyItemize}
+\item \subsubsection*{6}
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item \subsubsection*{7}
+\end{DoxyItemize}
+
+?
+
+\subsubsection*{8}
+
+
+
+
+\begin{DoxyItemize}
+\item El resultado debería ser constante ya que la pelota en cada momento solo puede estar en un jugador entonces es independiente del número de jugadores.
+\item Las mediciones dicen que cuantos más hilos estén en funcionamiento (más jugadores) más lento es el programa.
+\item El método más eficiente es con un número de jugadores entre 2-\/64 jugadores cuyos tiempos son muy similares (entre 35ms y 41ms).
+\end{DoxyItemize}
+
+\subsubsection*{9}
+
+Si se interrupme un hilo el funcionamiento del programa no cambia. En cada jugador cuando se invoca el {\ttfamily wait()} se hace dentro de un bucle y un bloque {\ttfamily try catch} que comprueba si \char`\"{}sale del wait\char`\"{} de forma normal o por una interrupción. Para discernir si ha salido de forma normal utiliza como bandera la pelota. Si al salir del wait no tiene la pelota un bucle hace que vuelva a entrar en el wait. Código de ejemplo\-:
+
+```java synchronized(this)\{ while(!tiene\-Pelota() \&\& !partida\-Finalizada)\{ this.\-esperando = true; try \{ this.\-wait(); \} catch(\-Interrupted\-Exception e)\{\}; this.\-esperando = false; \} \} ```
+
+\subsubsection*{10}
+
+Tuvimos que modificar este código\-:
+
+```java
+
+System.\-out.\-println(\char`\"{}\-El hilo \char`\"{} + id + \char`\"{} lanza la pelota\char`\"{});
+
+\hyperlink{classActividad4_a23cf00e913eac32dea7597b617728047}{Actividad4.\-pasar\-Siguiente\-Jugador()};//pasa la pelota al siguiente jugador, en este caso a si mismo pelota=null;//se pasó la pelota a si mismo pero después la quitó entonces nunca sale del bucle por motivo de la expresión !tiene\-Pelota()
+
+synchronized(this)\{ while(!tiene\-Pelota() \&\& !partida\-Finalizada)\{ this.\-esperando = true; try \{ this.\-wait(); \} catch(\-Interrupted\-Exception e)\{\}; this.\-esperando = false; \} \} ```
+
+por este\-:
+
+```java
+
+System.\-out.\-println(\char`\"{}\-El hilo \char`\"{} + id + \char`\"{} lanza la pelota\char`\"{});
+
+pelota=null; //\-A\-: quita la pelota antes de pasarla \hyperlink{classActividad4_a23cf00e913eac32dea7597b617728047}{Actividad4.\-pasar\-Siguiente\-Jugador()};//\-B\-: pasa la pelota al siguiente jugador, en este caso a si mismo
+
+synchronized(this)\{ //no entra en el bucle por que en B\-: ha recibido la pelota (único jugador) while(!tiene\-Pelota() \&\& !partida\-Finalizada)\{ this.\-esperando = true; try \{ this.\-wait(); \} catch(\-Interrupted\-Exception e)\{\}; this.\-esperando = false; \} \} ``` 

@@ -52,6 +52,48 @@ synchronized(this){
 }
 ```
 
+### 10
+Tuvimos que modificar este código:
+
+```java
+
+System.out.println("El hilo " + id + " lanza la pelota");
+			
+Actividad4.pasarSiguienteJugador();//pasa la pelota al siguiente jugador, en este caso a si mismo
+pelota=null;//se pasó la pelota a si mismo pero después la quitó entonces nunca sale del bucle por motivo de la expresión !tienePelota()
+
+synchronized(this){
+	while(!tienePelota() && !partidaFinalizada){
+		this.esperando = true;
+		try {
+			this.wait();
+		} catch(InterruptedException e){};
+		this.esperando = false;
+	}
+}
+```
+
+por este:
+
+```java
+
+System.out.println("El hilo " + id + " lanza la pelota");
+
+pelota=null; //A: quita la pelota antes de pasarla
+Actividad4.pasarSiguienteJugador();//B: pasa la pelota al siguiente jugador, en este caso a si mismo
+
+synchronized(this){
+	//no entra en el bucle por que en B: ha recibido la pelota (único jugador)
+	while(!tienePelota() && !partidaFinalizada){
+		this.esperando = true;
+		try {
+			this.wait();
+		} catch(InterruptedException e){};
+		this.esperando = false;
+	}
+}
+```
+
 
 
 

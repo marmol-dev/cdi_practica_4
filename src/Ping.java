@@ -35,6 +35,9 @@ public class Ping implements Runnable {
 		return this.pelota != null;
 	}
 	
+	/**
+	 * Finaliza la partida
+	 */
 	public synchronized void finalizarPartida(){
 		this.partidaFinalizada=true;
 		if(this.esperando){
@@ -59,8 +62,8 @@ public class Ping implements Runnable {
 		while(!partidaFinalizada){
 			System.out.println("El hilo " + id + " lanza la pelota");
 			
-			Actividad4.pasarSiguienteJugador();
 			pelota=null;
+			Actividad4.pasarSiguienteJugador();
 			
 			synchronized(this){
 				while(!tienePelota() && !partidaFinalizada){

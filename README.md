@@ -7,6 +7,8 @@ Grupo CDI_4
 
 ## Respuestas
 
+**NOTA:** Los ejercicios marcados con un guión indican que no tienen una respuesta en forma de texto, sino que únicamente se entrega código.
+
 ### 1
 -
 
@@ -21,5 +23,16 @@ El método `notifyAll` notifica a todos los hilos que están esperando (han hech
 
 ### 5
 -
+
+### 6
+-
+
+### 7
+?
+
+### 8
+![Gráfico](./docs/anexo_8.png)
+
+
 
 

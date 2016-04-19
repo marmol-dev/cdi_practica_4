@@ -6,10 +6,10 @@ import java.util.Vector;
  *
  */
 public class Actividad4 {
-	private static final int N_JUGADORES = 3;
+	private static final int N_JUGADORES = 4096;
 	private static final int JUGADOR_INICIAL = 0;
 	private static final int CRITERIO_FIN = 0;
-	private static final int N_MAX_JUGADAS = 10;	
+	private static final int N_MAX_JUGADAS = 2000;	
 	
 	private static Vector<Ping> jugadores;
 	private static Vector<Thread> threads;
@@ -17,7 +17,6 @@ public class Actividad4 {
 	private static Pelota pelota;
 	
 	private static int nJugadas = 0;	
-	
 	private static Object lock = new Object();
 	
 	
@@ -39,9 +38,6 @@ public class Actividad4 {
 	 */
 	public static void pasarSiguienteJugador(){
 		if(jugadores.size() == 0) return;
-		synchronized(lock){
-			nJugadas++;
-		}
 		if(estaPartidaFinalizada()){
 			for(Ping jugador: jugadores){
 				jugador.finalizarPartida();
@@ -49,6 +45,9 @@ public class Actividad4 {
 		} else {
 			indiceJugadorActual=(indiceJugadorActual+1)%jugadores.size();
 			jugadores.get(indiceJugadorActual).recibirPelota(pelota);
+			synchronized(lock){
+				nJugadas++;
+			}
 		}
 	}
 	
@@ -73,7 +72,11 @@ public class Actividad4 {
 		}
 			
 		indiceJugadorActual = JUGADOR_INICIAL - 1;
+		
+		//Empezar partido
+		double msInicio = System.currentTimeMillis();
 		pasarSiguienteJugador();
+		
 		
 		//Join
 		for(int i = 0; i < N_JUGADORES; i++){
@@ -82,6 +85,8 @@ public class Actividad4 {
 			} catch(InterruptedException e){}
 		}
 		
-		System.out.println("Acabó");
+		double msPartido = System.currentTimeMillis() - msInicio;
+		
+		System.out.println("Acabó. Tiempo: " + msPartido + " ms");
 	}
 }

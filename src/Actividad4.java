@@ -6,6 +6,8 @@ import java.util.Vector;
  *
  */
 public class Actividad4 {
+	private static final int N_JUGADORES = 3;
+	private static final int JUGADOR_INICIAL = 0;
 	private static final int CRITERIO_FIN = 0;
 	private static final int N_MAX_JUGADAS = 10;	
 	
@@ -55,26 +57,26 @@ public class Actividad4 {
 	 * @param args Argumentos del programa
 	 */
 	public static void main(String[] args){
-		int nJugadores = 3;
 		pelota = new Pelota();
 		jugadores = new Vector<Ping>();
 		threads = new Vector<Thread>();
 		
 		//Crear objetos e hilos
-		for(int i = 0; i < nJugadores; i++){
+		for(int i = 0; i < N_JUGADORES; i++){
 			jugadores.add(new Ping(i));
 			threads.add(new Thread(jugadores.lastElement()));
 		}
 		
 		//Empezar hilos
-		for(int i = 0; i < nJugadores; i++){
+		for(int i = 0; i < N_JUGADORES; i++){
 			threads.get(i).start();
 		}
-				
+			
+		indiceJugadorActual = JUGADOR_INICIAL - 1;
 		pasarSiguienteJugador();
 		
 		//Join
-		for(int i = 0; i < nJugadores; i++){
+		for(int i = 0; i < N_JUGADORES; i++){
 			try {
 				threads.get(i).join();
 			} catch(InterruptedException e){}

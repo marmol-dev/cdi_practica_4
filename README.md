@@ -2,7 +2,8 @@
 
 Grupo CDI_4
 
-> Victor Málvarez Filgueira
+> Víctor Malvárez Filgueira
+
 > Martín Molina Álvarez
 
 ## Respuestas
